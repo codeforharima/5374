@@ -44,6 +44,12 @@ var AreaModel = function() {
 */
   this.sortTrash = function() {
     this.trash.sort(function(a, b) {
+      if (!a.mostRecent) {
+        return 1;
+      }
+      if (!b.mostRecent) {
+        return -1;
+      }
       var at = a.mostRecent.getTime();
       var bt = b.mostRecent.getTime();
       if (at < bt) return -1;
@@ -95,6 +101,7 @@ var TrashModel = function(_lable, _cell, remarks) {
   this.dayLabel = result_text;
 
   this.getDateLabel = function() {
+    if (!this.mostRecent) return '不定期';
     var result_text = this.mostRecent.getFullYear() + "/" + (1 + this.mostRecent.getMonth()) + "/" + this.mostRecent.getDate();
     return this.getRemark() + this.dayLabel + " " + result_text;
   }
@@ -475,10 +482,12 @@ $(function() {
 
           var dateLabel = trash.getDateLabel();
           //あと何日かを計算する処理です。
-          var leftDay = Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+          var leftDay = trash.mostRecent ? Math.ceil((trash.mostRecent.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)) : ''
 
           var leftDayText = "";
-          if (leftDay == 0) {
+          if (leftDay === '') {
+            leftDayText = '未定';
+          } else if (leftDay == 0) {
             leftDayText = "今日";
           } else if (leftDay == 1) {
             leftDayText = "明日";
