@@ -1,5 +1,17 @@
 'use strict'
 
+var YEAR = '2019'
+var LABELS = ['燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん', 'びん', 'ペットボトル・衣類', '紙類', '剪定枝・草']
+var LABEL_CONVERT = {
+  '乾電池': '蛍光灯・乾電池',
+  '衣類': 'ペットボトル・衣類',
+  '剪定枝': '剪定枝・草',
+  'かん類': 'かん',
+  '蛍光灯': '蛍光灯・乾電池',
+  'びん類': 'びん',
+  'ペットボトル': 'ペットボトル・衣類'
+}
+
 var checkFiles = function (e) {
   e.preventDefault()
   var data = document.getElementById('data').files[0]
@@ -41,7 +53,15 @@ var parseData = function (dataFile, callback) {
       var targets = []
       results.data.forEach(function (values) {
         var data = []
-        data.push(values[LABEL])
+        var label = values[LABEL]
+        if (!LABELS.includes(label)) {
+          if (LABEL_CONVERT[label]) {
+            label = LABEL_CONVERT[label]
+          } else {
+            console.warn('Not defined type: ' + label)
+          }
+        }
+        data.push(label)
         data.push(values[NAME])
         data.push(values[NOTICE])
         data.push(values[FURIGANA])
@@ -63,7 +83,10 @@ var parseCalendar = function (calendarFile, callback) {
       return str.replace(/・/g, ' ').replace('毎週', '')
     } else {
       var dates = str.split('、').map(function (dates) {
-        return moment(dates, 'M/D').format('YYYYMMDD')
+        var hankakuDate = dates.replace(/[！-～]/g, function (s) {
+          return String.fromCharCode(s.charCodeAt(0) - 65248);
+        });
+        return moment(YEAR + '/' + hankakuDate, 'YYYY/M/D').format('YYYYMMDD')
       })
       return dates.join(' ')
     }
@@ -74,8 +97,15 @@ var parseCalendar = function (calendarFile, callback) {
     error: function () {
     },
     complete: function (results, file) {
-      var NAME = '町名', TYPE1 = '区分１（燃やすごみ）', TYPE2 = '区分２（蛍光灯・乾電池）', TYPE3 = '区分３（燃やさないごみ）', TYPE4 = '区分４（かん）',
-        TYPE5 = '区分５（びん）', TYPE6 = '区分６（ペットボトル・衣類）', TYPE7 = '区分７（紙類）', TYPE8 = '区分８（剪定枝）'
+      var NAME = '町名',
+        TYPE1 = '区分１（燃やすごみ）',
+        TYPE2 = '区分２（蛍光灯・乾電池）',
+        TYPE3 = '区分３（燃やさないごみ）',
+        TYPE4 = '区分４（かん）',
+        TYPE5 = '区分５（びん）',
+        TYPE6 = '区分６（ペットボトル・衣類）',
+        TYPE7 = '区分７（紙類）',
+        TYPE8 = '区分８（剪定枝）'
       var targets = []
       results.data.forEach(function (values) {
         var data = []
@@ -92,7 +122,7 @@ var parseCalendar = function (calendarFile, callback) {
         targets.push(data)
       })
       var csv = Papa.unparse({
-        fields: ['地名', 'センター（center.csvを使わない場合は空白化）', '燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん,びん', 'ペットボトル・衣類', '紙類,剪定枝'],
+        fields: ['地名', 'センター（center.csvを使わない場合は空白化）', '燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん', 'びん', 'ペットボトル・衣類', '紙類', '剪定枝・草'],
         data: targets
       })
       callback(csv)
