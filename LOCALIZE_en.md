@@ -127,6 +127,28 @@ The contents will be displayed on screen when its respective garbage category is
 
 * **furigana**: Within each list, garbage is sorted by the first letter of its name. This field indicates that letter. __Translator's Note__: Japanese written phonetically is called furigana. Using alphabetical letters rather than Japanese characters in this field should work just fine.
 
+### notifications.csv
+
+Shows notifications, for example collection days are changed in holidays.
+
+```
+Starting_to_show,Ending_to_show,Notification,Color
+```
+
+の形で記述してください。
+* **Starting_to_show**: The dates to start to show. Notifications are shown at 00:00 in this date.
+
+* **Ending_to_show**: The dates to end to show. Notifications are hidden at 00:00 in this date .
+
+* **Notification**: Notification content.
+
+* **Color**: The color of notification.
+
+If you want to show notification between 2018/12/25 ~ 2019/01/05(it means until 00:00 in 1/6), settings are follows.
+
+```
+20181225,20190106,Don't collect garbage.,#FF0000
+```
 
 ## Other Customization
 
