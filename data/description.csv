@@ -1,9 +1,9 @@
 label,sublabel,description,styles,bgcolor
-燃やすごみ,,,,#ea3b13
-燃やさないごみ,,,,#dbdbdb
-ペットボトル・衣類,,,,#cc99ff
-蛍光灯・乾電池,,,,#ffcc99
-びん,,,,#ff99cc
-かん,,,,#99ccff
-紙類,,,,#ffff99
-剪定枝・草,,,,#d4f3b5
+燃やさないごみ,,,img/moyasanai02.svg,#733b96
+ペットボトル・衣類,,,,#77ae1f
+燃やすごみ,,,img/moyasu02.svg,#ea3b13
+びん,,,img/bin02.svg,#2dc7aa
+蛍光灯・乾電池,,,,#733b96
+かん,,,,#77ae1f
+紙類,,,,#ea3b13
+剪定枝・草,,,,#ea3b13
