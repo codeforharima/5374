@@ -1,6 +1,6 @@
 'use strict'
 
-var YEAR = '2019'
+var YEAR = '2020'
 var LABELS = ['燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん', 'びん', 'ペットボトル・衣類', '紙類', '剪定枝・草']
 var LABEL_CONVERT = {
   '乾電池': '蛍光灯・乾電池',
@@ -98,14 +98,14 @@ var parseCalendar = function (calendarFile, callback) {
     },
     complete: function (results, file) {
       var NAME = '町名',
-        TYPE1 = '区分１（燃やすごみ）',
-        TYPE2 = '区分２（蛍光灯・乾電池）',
-        TYPE3 = '区分３（燃やさないごみ）',
-        TYPE4 = '区分４（かん）',
-        TYPE5 = '区分５（びん）',
-        TYPE6 = '区分６（ペットボトル・衣類）',
-        TYPE7 = '区分７（紙類）',
-        TYPE8 = '区分８（剪定枝）'
+        TYPE1 = '燃やすごみ',
+        TYPE2 = '蛍光灯・乾電池',
+        TYPE3 = '燃やさないごみ',
+        TYPE4 = 'かん',
+        TYPE5 = 'びん',
+        TYPE6 = '剪定枝・草',
+        TYPE7 = 'ペットボトル・衣類',
+        TYPE8 = '紙類'
       var targets = []
       results.data.forEach(function (values) {
         var data = []
@@ -122,7 +122,7 @@ var parseCalendar = function (calendarFile, callback) {
         targets.push(data)
       })
       var csv = Papa.unparse({
-        fields: ['地名', 'センター（center.csvを使わない場合は空白化）', '燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん', 'びん', 'ペットボトル・衣類', '紙類', '剪定枝・草'],
+        fields: ['地名', 'センター（center.csvを使わない場合は空白化）', '燃やすごみ', '蛍光灯・乾電池', '燃やさないごみ', 'かん', 'びん', '剪定枝・草', 'ペットボトル・衣類', '紙類'],
         data: targets
       })
       callback(csv)
